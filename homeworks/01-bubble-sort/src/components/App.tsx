@@ -69,6 +69,10 @@ class App extends React.Component<Props, State> {
     this.setState({ inProcess: !inProcess })
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timer)
+  }
+
   render() {
     const { array, isSolved, inProcess } = this.state
     return (
