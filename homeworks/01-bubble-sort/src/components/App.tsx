@@ -20,7 +20,7 @@ interface State {
 type CreateRandomArray = (size: number) => number[]
 
 class App extends React.Component<Props, State> {
-  timer: any
+  private timer?: NodeJS.Timeout
 
   constructor(props: Props) {
     super(props)
@@ -31,13 +31,14 @@ class App extends React.Component<Props, State> {
     }
   }
 
-  createRandomArray: CreateRandomArray = size =>
+  private createRandomArray: CreateRandomArray = size =>
     Array(size)
       .fill(0)
       .map(() => ~~(Math.random() * 200))
 
-  update: React.MouseEventHandler<HTMLButtonElement> = event => {
-    clearInterval(this.timer)
+  private update: React.MouseEventHandler<HTMLButtonElement> = event => {
+    this.clearTimer(this.timer)
+
     this.setState({
       array: this.createRandomArray(this.props.arraySize),
       isSolved: false,
@@ -45,12 +46,12 @@ class App extends React.Component<Props, State> {
     })
   }
 
-  start: React.MouseEventHandler<HTMLButtonElement> = event => {
+  private start: React.MouseEventHandler<HTMLButtonElement> = event => {
     const { array, inProcess } = this.state
     const iterator = bubbleSort(array)
 
     if (inProcess) {
-      clearInterval(this.timer)
+      this.clearTimer(this.timer)
     }
     else {
       this.timer = setInterval(() => {
@@ -60,7 +61,7 @@ class App extends React.Component<Props, State> {
         if (newArray) {
           this.setState({ array: newArray })
         } else {
-          clearInterval(this.timer)
+          if (this.timer) clearInterval(this.timer)
           this.setState({ inProcess: false, isSolved: true })
         }
 
@@ -69,8 +70,8 @@ class App extends React.Component<Props, State> {
     this.setState({ inProcess: !inProcess })
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer)
+  private clearTimer = (timer: undefined | NodeJS.Timeout) => {
+    if (timer) clearInterval(timer);
   }
 
   render() {
