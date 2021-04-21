@@ -5,6 +5,7 @@ import SortField from './SortField'
 import bubbleSort from '../utils/bubbleSort'
 import style from './App.module.css'
 import icon from '../Bolle.svg'
+import { createRandomArray } from '../utils/createRandomArray'
 
 interface Props {
   arraySize: number,
@@ -17,30 +18,24 @@ interface State {
   inProcess: boolean
 }
 
-type CreateRandomArray = (size: number) => number[]
-
 class App extends React.Component<Props, State> {
   private timer?: NodeJS.Timeout
 
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      array: this.createRandomArray(props.arraySize),
-      isSolved: false,
-      inProcess: false
-    }
+  state = {
+    array: createRandomArray(this.props.arraySize),
+    isSolved: false,
+    inProcess: false
   }
 
-  private createRandomArray: CreateRandomArray = size =>
-    Array(size)
-      .fill(0)
-      .map(() => ~~(Math.random() * 200))
+  constructor(props: Props) {
+    super(props)
+  }
 
   private update: React.MouseEventHandler<HTMLButtonElement> = event => {
     this.clearTimer(this.timer)
 
     this.setState({
-      array: this.createRandomArray(this.props.arraySize),
+      array: createRandomArray(this.props.arraySize),
       isSolved: false,
       inProcess: false
     })
