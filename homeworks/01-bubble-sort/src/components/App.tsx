@@ -19,7 +19,7 @@ interface State {
 }
 
 class App extends React.Component<Props, State> {
-  private timer?: NodeJS.Timeout
+  private timer?: number
 
   state = {
     array: createRandomArray(this.props.arraySize),
@@ -49,7 +49,7 @@ class App extends React.Component<Props, State> {
       this.clearTimer(this.timer)
     }
     else {
-      this.timer = setInterval(() => {
+      this.timer = window.setInterval(() => {
 
         const newArray = iterator.next().value
 
@@ -65,7 +65,7 @@ class App extends React.Component<Props, State> {
     this.setState({ inProcess: !inProcess })
   }
 
-  private clearTimer = (timer: undefined | NodeJS.Timeout) => {
+  private clearTimer = (timer: undefined | number) => {
     if (timer) clearInterval(timer);
   }
 
