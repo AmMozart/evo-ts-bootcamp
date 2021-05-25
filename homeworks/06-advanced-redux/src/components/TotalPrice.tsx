@@ -1,5 +1,5 @@
 import React from "react";
-import {PizzaPrice} from "./PizzaPrice";
+import { PizzaPrice } from "./PizzaPrice";
 
 interface TotalPriceProps {
     price: number;
@@ -12,3 +12,4 @@ export function TotalPrice({ price }: TotalPriceProps) {
         </div>
     );
 }
+

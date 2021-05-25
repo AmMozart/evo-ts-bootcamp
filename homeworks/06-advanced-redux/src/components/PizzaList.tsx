@@ -1,6 +1,7 @@
 import React from "react";
 import { PizzaItem } from "./PizzaItem";
 import * as R from "ramda";
+import { connect } from "react-redux";
 
 interface PizzaListProps {
     pizza: {
@@ -11,7 +12,7 @@ interface PizzaListProps {
     onAdd: (_id: string) => void;
 }
 
-export function PizzaList({ pizza, onAdd }: PizzaListProps) {
+function pizzaList({ pizza, onAdd }: PizzaListProps): JSX.Element[] {
     return R.map((p) =>
         <PizzaItem
             key={p._id}
@@ -21,3 +22,13 @@ export function PizzaList({ pizza, onAdd }: PizzaListProps) {
             onAdd={onAdd}
         />, pizza);
 }
+
+const mapStateToProps = (state: Pick<PizzaListProps, 'pizza'>) => ({
+    pizza: state.pizza
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+    onAdd: () => dispatch('')
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(pizzaList)

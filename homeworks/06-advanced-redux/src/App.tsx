@@ -9,40 +9,51 @@ import {
 } from "./components";
 import * as R from "ramda";
 import { useApp } from "./hooks";
-
+import { getPizza } from './services/api'
+import { useDispatch } from 'react-redux';
+import { getPizzaList } from './actions/getPizzaList'
 
 function App() {
-    const { totalPrice, pizza, plusPizzaBucket, minusPizzaBucket, bucket } =
-        useApp();
-    const handleMinusPizza =
-        useCallback((_id: string) => {
-        minusPizzaBucket(_id);
-    }, [pizza, bucket]);
-    const handleAddPizza =
-        useCallback((_id: string) => {
-        plusPizzaBucket(_id);
-    }, [pizza, bucket]);
+    const dispatch = useDispatch()
 
-    const pizzaList = R.cond([
-        [R.isEmpty, Loading],
-        [R.T, (xs) => PizzaList({ pizza: xs, onAdd: handleAddPizza })],
-    ]);
-    const pizzaBucket = R.cond([
-        [R.isEmpty, Missing],
-        [R.T, (xs) => PizzaBasket({ pizza: xs, onMinus: handleMinusPizza })],
-    ]);
+    React.useEffect(() => {
+        dispatch(getPizzaList())
+        // getPizza()
+        //     .then(pizza => { setPizza(pizza.items) });
+    }, []);
+
+    // const { totalPrice, pizza, plusPizzaBucket, minusPizzaBucket, bucket } =
+    //     useApp();
+    // const handleMinusPizza =
+    //     useCallback((_id: string) => {
+    //         minusPizzaBucket(_id);
+    //     }, [pizza, bucket]);
+    // const handleAddPizza =
+    //     useCallback((_id: string) => {
+    //         plusPizzaBucket(_id);
+    //     }, [pizza, bucket]);
+
+    // const pizzaList = R.cond([
+    //     [R.isEmpty, Loading],
+    //     [R.T, (xs) => PizzaList({ pizza: xs, onAdd: handleAddPizza })],
+    // ]);
+    // const pizzaBucket = R.cond([
+    //     [R.isEmpty, Missing],
+    //     [R.T, (xs) => PizzaBasket({ pizza: xs, onMinus: handleMinusPizza })],
+    // ]);
 
     return (
         <div className="grid grid-cols-3 gap-4 h-full">
             <div className="col-span-2 p-8">
                 <div className="grid grid-cols-4 gap-4">
-                    {pizzaList(pizza)}
+                    {/* {pizzaList(pizza)} */}
+                    <PizzaList />
                 </div>
             </div>
             <div className="col-span-1 bg-white overflow-y-auto h-full">
                 <div className="flex flex-col p-8">
-                    <TotalPrice price={totalPrice} />
-                    {pizzaBucket(bucket)}
+                    {/* <TotalPrice price={totalPrice} /> */}
+                    {/* {pizzaBucket(bucket)} */}
                     <div className="flex flex-col">
                         <button
                             className="bg-yellow-400 rounded-xl pt-2 pb-2"
