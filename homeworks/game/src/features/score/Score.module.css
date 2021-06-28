@@ -1,0 +1,19 @@
+.scorePlayer1,
+.scorePlayer2 {
+  width: 20%;
+  height: 5%;
+  position: absolute;
+  background-color: rgba(126, 137, 150, 0.7);
+  border-radius: 10px;
+  color: white;
+}
+
+.scorePlayer1 {
+  top: 10px;
+  left: 10px;
+}
+
+.scorePlayer2 {
+  top: 10px;
+  right: 10px;
+}
